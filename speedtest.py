@@ -1,28 +1,19 @@
 #!/usr/bin/env python3
 
-import ftplib 
-import os
+import time
+from ftplib import FTP
 
-with ftplib.FTP('34.245.75.246', 'awsftpuser', 'precopius') as ftp:
+ftp = FTP('34.245.75.246')
 
-	file_orig = '/testfile.txt'
-	file_copy = '/tmp/testfile.txt'
+ftp.login('awsftpuser','precopius')
 
-	try:
-		ftp.login()  
-		
-		with open(file_copy, 'w') as fp:
-			
-			res = ftp.retrlines('RETR ' + file_orig, fp.write)
-			
-			if not res.startswith('226 Transfer complete'):
-				
-				print('Download failed')
-				if os.path.isfile(file_copy):
-					os.remove(file_copy)
+filename = '/tmp/testfile.txt'
+downfile = 'testfile.txt'
 
-	except ftplib.all_errors as e:
-		print('FTP error:', e) 
-		
-		if os.path.isfile(file_copy):
-			os.remove(file_copy)
+localfile = open(filename, 'wb')
+start = time.time()
+ftp.retrbinary('RETR ' + downfile, localfile, 1024) 
+ftp.quit()
+end = time.time()
+print(end - start)
+localfile.close()
