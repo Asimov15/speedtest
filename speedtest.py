@@ -15,6 +15,7 @@ from datetime import datetime
 client_id = '00001'
 send_dir = 'send/'
 receive_dir = 'receive/'
+sql_host = 'speedtester.c6gl0ojvhvge.ap-southeast-2.rds.amazonaws.com'
 
 def testspeed(ip, location):
 	print("Testing Speed To {0}".format(location))
