@@ -66,3 +66,5 @@ else:
 sp_task = save_dir+outfn
 
 plt.savefig(sp_task)
+
+print("success")

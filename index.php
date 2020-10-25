@@ -29,10 +29,15 @@
 			return $randstring;
 		};
 		$outfn = RandomString() . '.png';
-		$sp_command = '/usr/bin/python3 speedgraph.py -f ' . $outfn . ' 2>&1';
-		exec($sp_command); 
-
+		$error_log = '/tmp/speedtest-' . RandomString() . '.log';
+		$sp_command = 'python3 /var/www/html/speedtest/speedgraph.py -f ' . $outfn . ' 2> ' . $error_log;
+		$response = 'failed';
+		exec($sp_command, $response);
 		echo("<body>\n");
+		if ($response == 'failed')
+		{
+			echo("python execution failed");
+		}
 		echo("	<div id='header'>\n");
 		echo("		<h1>Speed Tester</h1>\n");
 		echo("	</div>\n");
